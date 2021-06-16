@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SportsStore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,16 @@ namespace SportsStore.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index() => View();
+        private readonly IStoreRepository _storeRepository;
+
+        public HomeController(IStoreRepository storeRepository)
+        {
+            _storeRepository = storeRepository;
+        }
+
+        public IActionResult Index()
+        {
+            return View(_storeRepository.Products);
+        }
     }
 }

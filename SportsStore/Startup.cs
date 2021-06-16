@@ -19,7 +19,7 @@ namespace SportsStore
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        public IConfiguration Configuration { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -27,7 +27,9 @@ namespace SportsStore
             services.AddControllersWithViews();
 
             services.AddDbContext<StoreDbContext>(opts =>
-                opts.UseSqlServer(Configuration["ConnectionString:SportsStoreConnection"]));
+                opts.UseSqlServer(Configuration["ConnectionStrings:SportsStoreConnection"]));
+
+            services.AddScoped<IStoreRepository, StoreRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +46,7 @@ namespace SportsStore
             {
                 endpoints.MapDefaultControllerRoute();
             });
+            SeedData.EnsurePopulated(app);
         }
     }
 }
