@@ -17,7 +17,7 @@ namespace SportsStore.Controllers
             _storeRepository = storeRepository;
         }
 
-        public IActionResult Index(int productPage = 1)
+        public ViewResult Index(string category, int productPage = 1)
         {
             ProductsListViewModel model = new ProductsListViewModel
             {
@@ -29,6 +29,7 @@ namespace SportsStore.Controllers
                 },
                 Products = _storeRepository.Products
                     .OrderBy(p => p.ProductID)
+                    .Where(p => category == null || p.Category == category)
                     .Skip((productPage - 1) * pageSize)
                     .Take(pageSize)
             };
