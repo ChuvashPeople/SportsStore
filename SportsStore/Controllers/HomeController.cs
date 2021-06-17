@@ -25,7 +25,9 @@ namespace SportsStore.Controllers
                 {
                     CurrentPage = productPage,
                     ItemsPerPage = pageSize,
-                    TotalItems = _storeRepository.Products.Count()
+                    TotalItems = category == null ?
+                        _storeRepository.Products.Count() :
+                        _storeRepository.Products.Where(p => p.Category == category).Count()
                 },
                 Products = _storeRepository.Products
                     .OrderBy(p => p.ProductID)
