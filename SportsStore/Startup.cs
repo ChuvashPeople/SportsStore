@@ -48,7 +48,7 @@ namespace SportsStore
                     "{category}/Page/{productPage:int}",
                     new { Controller = "Home", action = "Index" });
 
-                endpoints.MapControllerRoute("page",
+                endpoints.MapControllerRoute("page", // Навигация по страницам
                     "Page/{productPage:int}",
                     new { Controller = "Home", action = "Index", productPage = 1 });
 
@@ -56,7 +56,7 @@ namespace SportsStore
                     "{category}",
                     new { Controller = "Home", action = "Index", productPage = 1 });
 
-                endpoints.MapControllerRoute("pagination",
+                endpoints.MapControllerRoute("pagination", 
                     "Products/Page/{productPage}",
                     new { Controller = "Home", action = "Index", productPage = 1 });
 

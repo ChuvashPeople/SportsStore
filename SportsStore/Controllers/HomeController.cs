@@ -21,6 +21,11 @@ namespace SportsStore.Controllers
         {
             ProductsListViewModel model = new ProductsListViewModel
             {
+                Products = _storeRepository.Products
+                    .OrderBy(p => p.ProductID)
+                    .Where(p => category == null || p.Category == category)
+                    .Skip((productPage - 1) * pageSize)
+                    .Take(pageSize),
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = productPage,
@@ -29,11 +34,7 @@ namespace SportsStore.Controllers
                         _storeRepository.Products.Count() :
                         _storeRepository.Products.Where(p => p.Category == category).Count()
                 },
-                Products = _storeRepository.Products
-                    .OrderBy(p => p.ProductID)
-                    .Where(p => category == null || p.Category == category)
-                    .Skip((productPage - 1) * pageSize)
-                    .Take(pageSize)
+                CurrentCategory = category
             };
 
             return View(model);

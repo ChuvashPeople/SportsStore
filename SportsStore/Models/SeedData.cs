@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,11 @@ namespace SportsStore.Models
         {
             StoreDbContext _storeDbContext = app.ApplicationServices
                 .CreateScope().ServiceProvider.GetRequiredService<StoreDbContext>();
+
+            if (_storeDbContext.Database.GetPendingMigrations().Any())
+            {
+                _storeDbContext.Database.Migrate();
+            }
 
             if (!_storeDbContext.Products.Any())
             {
